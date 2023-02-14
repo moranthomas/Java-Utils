@@ -17,7 +17,7 @@ public class ExcelToJsonConverterTest {
         String json = jsonArray.toString();
 
         // Verify the JSON data
-        assertEquals("[{\"column1\":\"value2\",\"column0\":\"value1\"},{\"column1\":\"value4\",\"column0\":\"value3\"}]", json);
+        assertEquals("[{\"ica_no\":\"value1\",\"ica_name\":\"value2\"},{\"ica_no\":\"value3\",\"ica_name\":\"value4\"}]", json);
 
         // Write the JSON out to a file
         // Write the JSON data to a file

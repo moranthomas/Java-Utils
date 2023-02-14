@@ -1,11 +1,15 @@
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 public class ExcelToJsonConverter {
@@ -14,10 +18,11 @@ public class ExcelToJsonConverter {
 
         // Load the Excel file
         //FileInputStream excelFile = new FileInputStream(new File("file.xlsx"));
-        Workbook workbook = WorkbookFactory.create(inputExcelFile);
+        XSSFWorkbook workbook = new XSSFWorkbook(inputExcelFile);
 
+        //Workbook workbook = WorkbookFactory.create(inputExcelFile);
         // Get the first sheet from the workbook
-        Sheet sheet = workbook.getSheetAt(0);
+        XSSFSheet sheet = workbook.getSheetAt(0);
 
         // Get an iterator for the rows
         Iterator<Row> rowIterator = sheet.iterator();
@@ -25,32 +30,24 @@ public class ExcelToJsonConverter {
         // Create a JSON array to store the data
         JSONArray data = new JSONArray();
 
-        // Iterate over the rows
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
 
-            // Get an iterator for the cells
+            // Create a list to store the values of the cells in the row
+            List<String> cellValues = new ArrayList<>();
             Iterator<Cell> cellIterator = row.cellIterator();
-
-            // Create a JSON object to store the row data
-            JSONObject obj = new JSONObject();
-
-            // Iterate over the cells
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-
-                // Get the cell value
-                String value = cell.getStringCellValue();
-
-                // Get the cell index
-                int index = cell.getColumnIndex();
-
-                // Add the cell value to the JSON object
-                obj.put("column" + index, value);
+                cellValues.add(cell.getStringCellValue());
             }
 
+            // Create a JSON object to store the values of the cells in the row
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ica_no", cellValues.get(0));
+            jsonObject.put("ica_name", cellValues.get(1));
+
             // Add the JSON object to the JSON array
-            data.put(obj);
+            data.put(jsonObject);
         }
 
         return data;

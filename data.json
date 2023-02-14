@@ -1,1 +1,10 @@
-[{"column1":"value2","column0":"value1"},{"column1":"value4","column0":"value3"}]
+[
+  {
+    "ica_no": "value1",
+    "ica_name": "value2"
+  },
+  {
+    "ica_no": "value3",
+    "ica_name": "value4"
+  }
+]
