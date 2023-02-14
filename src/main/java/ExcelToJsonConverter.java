@@ -38,7 +38,19 @@ public class ExcelToJsonConverter {
             Iterator<Cell> cellIterator = row.cellIterator();
             while (cellIterator.hasNext()) {
                 Cell cell = cellIterator.next();
-                cellValues.add(cell.getStringCellValue());
+
+                CellType cellType = cell.getCellType();
+                String stringValue = null;
+
+                if(cellType.toString().equalsIgnoreCase("NUMERIC")) {
+                    int value = (int) cell.getNumericCellValue();
+                    stringValue = String.valueOf(value);
+                }
+                else if(cellType.toString().equalsIgnoreCase("STRING")) {
+                    stringValue = cell.getStringCellValue();
+                }
+
+                cellValues.add(stringValue);
             }
 
             // Create a JSON object to store the values of the cells in the row
